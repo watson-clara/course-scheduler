@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+# pylint: disable=missing-module-docstring
 import argparse
 import json
 import os
@@ -34,18 +35,14 @@ def fetch_courses(is_verbose):
         prog_bar.update(0)
     while True:
         prog_bar.max_value = total_rows
-        if is_verbose:
-            prog_bar.update(next_row)
+        prog_bar.update(next_row) if is_verbose else pass 
         payload['last-row'] = str(next_row)
         req = requests.get(ONE_UF_API_ENDPOINT, params=payload)
         responses.append(req.json()[0])
         total_rows = responses[-1]['TOTALROWS']
         next_row = responses[-1]['LASTROW']
-        if (next_row is None) or (next_row > total_rows):
-            print('')
-            break
-    if is_verbose:
-        print('Recieved course data from one.uf.edu')
+        print('') if (next_row is None) or (next_row > total_rows) else break
+    print('Recieved course data from one.uf.edu') if is_verbose else pass
     courses_nested_list = [req['COURSES'] for req in responses]
     return [course for sublist in courses_nested_list for course in sublist]
 
