@@ -2,7 +2,6 @@
 import argparse
 import json
 import os
-import pprint
 from progressbar import ProgressBar, Percentage, Bar, AdaptiveETA, Timer, FormatLabel
 import requests
 
@@ -28,7 +27,7 @@ def fetch_courses(is_verbose):
                 ' ',
                 AdaptiveETA()
             ]
-        )
+    )
     
     if is_verbose:
         print('Fetching courses from one.uf.edu')
@@ -44,13 +43,13 @@ def fetch_courses(is_verbose):
         responses.append(req.json()[0])
         total_rows = responses[-1]['TOTALROWS']
         next_row = responses[-1]['LASTROW']
-        if (next_row is None) or (next_row > total_rows):      
+        if (next_row is None) or (next_row > total_rows):
             print('')
             break
-    
+            
     if is_verbose:
         print('Recieved course data from one.uf.edu')
-    courses_nested_list = [r['COURSES'] for req in responses]
+    courses_nested_list = [req['COURSES'] for req in responses]
     return [course for sublist in courses_nested_list for course in sublist]
 
 def write_db(course_list, kind='json', path='.'):
@@ -71,9 +70,7 @@ if __name__ == '__main__':
         help='Disable all output',
         action='store_true'
     )
-    
     parser.set_defaults(quiet=False)
-    
     opts = parser.parse_args()
     is_verbose = not opts.quiet
     course_list = fetch_courses(is_verbose)
