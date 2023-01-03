@@ -41,7 +41,7 @@ def fetch_courses(is_verbose):
         responses.append(req.json()[0])
         total_rows = responses[-1]['TOTALROWS']
         next_row = responses[-1]['LASTROW']
-        next = False if !(next_row is None) or !(next_row > total_rows) else print('')
+        next = False if (next_row is not None) or (next_row <= total_rows) else print('')
         if next = False: break
     if is_verbose: print('Recieved course data from one.uf.edu')
     courses_nested_list = [req['COURSES'] for req in responses]
