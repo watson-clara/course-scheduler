@@ -28,12 +28,10 @@ def fetch_courses(is_verbose):
                 AdaptiveETA()
             ]
     )
-    
     if is_verbose:
         print('Fetching courses from one.uf.edu')
         prog_bar.max_value = total_rows
         prog_bar.update(0)
-
     while True:
         prog_bar.max_value = total_rows
         if is_verbose:
@@ -46,7 +44,6 @@ def fetch_courses(is_verbose):
         if (next_row is None) or (next_row > total_rows):
             print('')
             break
-            
     if is_verbose:
         print('Recieved course data from one.uf.edu')
     courses_nested_list = [req['COURSES'] for req in responses]
@@ -75,4 +72,3 @@ if __name__ == '__main__':
     is_verbose = not opts.quiet
     course_list = fetch_courses(is_verbose)
     write_db(course_list, kind='json', path='../db')
-    
