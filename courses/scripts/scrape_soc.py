@@ -35,7 +35,7 @@ def fetch_courses(is_verbose):
         prog_bar.update(0)
     while True:
         prog_bar.max_value = total_rows
-        prog_bar.update(next_row) if is_verbose else pass 
+        prog_bar.update(next_row) if is_verbose = True else pass
         payload['last-row'] = str(next_row)
         req = requests.get(ONE_UF_API_ENDPOINT, params=payload)
         responses.append(req.json()[0])
