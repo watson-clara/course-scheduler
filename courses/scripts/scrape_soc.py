@@ -3,8 +3,7 @@
 import argparse
 import json
 import os
-from progressbar import ProgressBar, Percentage, Bar, AdaptiveETA, Timer, FormatLabel
-import requests
+from progressbar import Percentage, Bar, AdaptiveETA, Timer, FormatLabel
 
 ONE_UF_API_ENDPOINT = 'https://one.uf.edu/apix/soc/schedule'
 
@@ -35,13 +34,11 @@ def fetch_courses(is_verbose):
         prog_bar.update(0)
     while True:
         prog_bar.max_value = total_rows
-        if is_verbose: prog_bar.update(next_row)
         payload['last-row'] = str(next_row)
         req = requests.get(ONE_UF_API_ENDPOINT, params=payload)
         responses.append(req.json()[0])
         total_rows = responses[-1]['TOTALROWS']
         next_row = responses[-1]['LASTROW']
-        False if (next_row is not None) or (next_row <= total_rows) else print('')
     if is_verbose: print('Recieved course data from one.uf.edu')
     courses_nested_list = [req['COURSES'] for req in responses]
     return [course for sublist in courses_nested_list for course in sublist]
@@ -66,6 +63,6 @@ if __name__ == '__main__':
     )
     parser.set_defaults(quiet=False)
     opts = parser.parse_args()
-    is_verbose = not opts.quiet
-    course_list = fetch_courses(is_verbose)
+    is_verboses = not opts.quiet
+    course_lists = fetch_courses(is_verbose)
     write_db(course_list, kind='json', path='../db')
