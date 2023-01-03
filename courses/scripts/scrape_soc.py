@@ -4,7 +4,6 @@ import json
 import os
 from progressbar import ProgressBar, Percentage, Bar, AdaptiveETA, Timer, Counter, FormatLabel
 import requests
-
 import pprint
 
 ONE_UF_API_ENDPOINT = 'https://one.uf.edu/apix/soc/schedule'
